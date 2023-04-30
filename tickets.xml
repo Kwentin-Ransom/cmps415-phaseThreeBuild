@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<database>
+    <ticket>
+        <_id>100</_id>
+        <type>sports</type>
+        <subject>baseball</subject>
+        <description>pitcher</description>
+        <priority>star player</priority>
+        <status>injured</status>
+    </ticket>
+    <ticket>
+        <_id>101</_id>
+        <type>sports</type>
+        <subject>tennis</subject>
+        <description>player</description>
+        <priority>hit balls</priority>
+        <status>free</status>
+    </ticket>
+    <ticket>
+        <_id>102</_id>
+        <type>sports</type>
+        <subject>baseball</subject>
+        <description>right out fielder</description>
+        <priority>backup</priority>
+        <status>injured</status>
+    </ticket>
+    <ticket>
+        <_id>103</_id>
+        <type>sports</type>
+        <subject>basketball</subject>
+        <description>center</description>
+        <priority>grab rebounds</priority>
+        <status>healthy</status>
+    </ticket>
+    <ticket>
+        <_id>104</_id>
+        <type>sports</type>
+        <subject>soccer</subject>
+        <description>goalie</description>
+        <priority>block shots</priority>
+        <status>healthy</status>
+    </ticket>
+    <ticket>
+        <_id>105</_id>
+        <type>sports</type>
+        <subject>hockey</subject>
+        <description>goalie</description>
+        <priority>block shots</priority>
+        <status>injured</status>
+    </ticket>
+</database>
