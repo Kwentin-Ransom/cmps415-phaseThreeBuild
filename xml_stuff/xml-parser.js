@@ -1,6 +1,11 @@
-/* Parse XML file into JSON object */
+/*
+ * XML INPUT TO JSON OUTPUT
+ * Parse XML file into JSON object
+ * Reading tickets.xml
+ * Converting xml data to json data
+ * Writing that json data to xml-tickets.json
+ */
 import { XMLParser } from "fast-xml-parser";
-// import { readFileSync, writeFileSync } from "fs";
 import * as fs from "fs";
 
 const xmlFile = fs.readFileSync("./tickets.xml", "utf-8");

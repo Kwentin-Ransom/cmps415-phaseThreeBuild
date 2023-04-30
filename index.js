@@ -1,13 +1,28 @@
-const { MongoClient } = require("mongodb");
+/* module : import */
+import express from "express";
+import * as fs from "fs";
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+import TicketAdapter from "./TicketAdapter.js";
+import axios from "axios";
 
-// Connection to the mongodb
-const uri =
-  "mongodb+srv://cmps415_02:admin123@krmdb.pzseua4.mongodb.net/?retryWrites=true&w=majority";
-
-const express = require("express");
 const app = express();
 const port = 3000;
-var fs = require("fs");
+dotenv.config();
+const mongoUri = process.env.MONGODB_URL;
+const tickerAdapter = new TicketAdapter();
+
+/* commonjs : require
+const { MongoClient } = require("mongodb");
+const dotnev = require("dotenv");
+dotnev.config();
+
+Connection to the mongodb
+const uri =
+  "mongodb+srv://cmps415_02:admin123@krmdb.pzseua4.mongodb.net/?retryWrites=true&w=majority";
+const express = require("express");
+const app = express();
+var fs = require("fs"); */
 
 app.listen(port);
 console.log("Server started at http://localhost:" + port);
@@ -15,6 +30,7 @@ console.log("Server started at http://localhost:" + port);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Default Route
 app.get("/", (req, res) => {
   res.send(
     "Hello world! Welcome to Phase III. <br/> Go to '/menu' for more options."
@@ -40,7 +56,7 @@ app.get("/menu", function (req, res) {
 // GET All tickets
 app.get("/rest/list/", function (req, res) {
   //establish the new connection with the mongodb
-  const client = new MongoClient(uri);
+  const client = new MongoClient(mongoUri);
 
   async function run() {
     try {
@@ -72,7 +88,7 @@ app.get("/rest/list/", function (req, res) {
 
 // GET ticket by id
 app.get("/rest/ticket/:id", async (req, res) => {
-  const client = new MongoClient(uri);
+  const client = new MongoClient(mongoUri);
   try {
     //connect
 
@@ -109,7 +125,7 @@ app.get("/rest/ticket/:id", async (req, res) => {
 
 // A DELETE request
 app.delete("/rest/ticket/:id", async (req, res) => {
-  const client = new MongoClient(uri);
+  const client = new MongoClient(mongoUri);
   try {
     //connect
 
@@ -170,7 +186,7 @@ app.get("/postform", function (req, res) {
 });
 
 app.post("/rest/ticket/postTicket", function (req, res) {
-  const client = new MongoClient(uri);
+  const client = new MongoClient(mongoUri);
 
   async function run() {
     try {
@@ -228,7 +244,7 @@ app.get("/putform", function (req, res) {
 
 app.post("/rest/ticket/updateTicket", function (req, res) {
   console.log("yes");
-  const client = new MongoClient(uri);
+  const client = new MongoClient(mongoUri);
 
   async function run() {
     try {
@@ -277,3 +293,26 @@ app.post("/rest/ticket/updateTicket", function (req, res) {
   }
   run().catch(console.dir);
 });
+
+// (new) GET XML ticket
+app.get("/rest/xml/ticket/:id", async (req, res) => {
+  const client = new MongoClient(mongoUri);
+  try {
+    //connect
+    await client.connect();
+    const id = req.params.id;
+    const response = await axios.get(`http://localhost:3000/rest/ticket/${id}`);
+    const ticket = response.data;
+
+    // convert json to xml
+    const xml = tickerAdapter.toXML(ticket);
+
+    res.set("Content-Type", "application/xml");
+    res.send(xml);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Internal server error");
+  }
+});
+
+// (new) PUT XML Ticket
