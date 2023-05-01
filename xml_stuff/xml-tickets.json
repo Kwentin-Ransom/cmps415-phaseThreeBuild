@@ -3,14 +3,6 @@
   "database": {
     "ticket": [
       {
-        "_id": 100,
-        "type": "sports",
-        "subject": "baseball",
-        "description": "pitcher",
-        "priority": "star player",
-        "status": "injured"
-      },
-      {
         "_id": 101,
         "type": "sports",
         "subject": "tennis",

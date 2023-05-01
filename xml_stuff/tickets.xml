@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <database>
-    <ticket>
-        <_id>100</_id>
-        <type>sports</type>
-        <subject>baseball</subject>
-        <description>pitcher</description>
-        <priority>star player</priority>
-        <status>injured</status>
-    </ticket>
+    
     <ticket>
         <_id>101</_id>
         <type>sports</type>
