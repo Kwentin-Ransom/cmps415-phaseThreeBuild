@@ -5,12 +5,15 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import TicketAdapter from "./TicketAdapter.js";
 import axios from "axios";
+import { XMLParser } from "fast-xml-parser";
+import bodyParser from "body-parser";
 
 const app = express();
 const port = 3000;
 dotenv.config();
 const mongoUri = process.env.MONGODB_URL;
 const tickerAdapter = new TicketAdapter();
+const parser = new XMLParser();
 
 /* commonjs : require
 const { MongoClient } = require("mongodb");
@@ -19,7 +22,7 @@ dotnev.config();
 
 Connection to the mongodb
 const uri =
-  "mongodb+srv://cmps415_02:admin123@krmdb.pzseua4.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://<user>:<password>@krmdb.pzseua4.mongodb.net/?retryWrites=true&w=majority";
 const express = require("express");
 const app = express();
 var fs = require("fs"); */
@@ -316,3 +319,39 @@ app.get("/rest/xml/ticket/:id", async (req, res) => {
 });
 
 // (new) PUT XML Ticket
+app.post("/rest/xml/ticket/:id", async (req, res) => {
+  app.use(express.json());
+  app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  );
+  res.set("Content-Type", "application/json");
+
+  var postData = req.body;
+
+  const client = new MongoClient(mongoUri);
+  try {
+    //connect
+    await client.connect();
+
+    // app.use(express.json());
+    // app.use(express.urlencoded({ extended: true }));
+
+    // app.use(bodyParser.json());
+    // app.use(bodyParser.urlencoded({ extended: true }));
+
+    console.log("Yoooooo");
+    console.log(req.headers);
+    console.log(req.body);
+    res.status(200).send("yay");
+
+    // console.log("1st", req.body);
+    // const jsonTicket = parser.parse(req.body);
+    // console.log("2nd", req.body);
+    res.send(postData);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Internal server error");
+  }
+});
